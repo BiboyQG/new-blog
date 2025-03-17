@@ -86,15 +86,18 @@ export default function PostEditorPage() {
     try {
       if (isEditMode) {
         await updatePost(id as string, postData);
+        navigate(`/posts/${data.slug}`);
       } else {
         const newPost = await createPost(postData, user);
         if (newPost) {
           reset();
           setContent("");
           setTags([]);
+          setTimeout(() => {
+            navigate(`/posts/${data.slug}`);
+          }, 500);
         }
       }
-      navigate(isEditMode ? `/posts/${data.slug}` : "/admin");
     } catch (error) {
       console.error("Failed to save post:", error);
     } finally {

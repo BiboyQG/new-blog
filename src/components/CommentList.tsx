@@ -22,9 +22,10 @@ export default function CommentList({
       setIsLoading(true);
       try {
         const fetchedComments = await getComments(postId);
-        setComments(fetchedComments);
+        setComments(fetchedComments || []);
       } catch (error) {
         console.error("Failed to fetch comments:", error);
+        setComments([]);
       } finally {
         setIsLoading(false);
       }
@@ -36,7 +37,7 @@ export default function CommentList({
   const handleDeleteComment = async (commentId: string) => {
     if (window.confirm("Are you sure you want to delete this comment?")) {
       try {
-        await deleteComment(postId, commentId);
+        await deleteComment(commentId);
         setComments(comments.filter((comment) => comment.id !== commentId));
       } catch (error) {
         console.error("Failed to delete comment:", error);

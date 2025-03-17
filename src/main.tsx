@@ -7,8 +7,4 @@ import initApp from "./utils/initApp";
 // Initialize the application (database, etc.)
 initApp().catch(console.error);
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+ReactDOM.createRoot(document.getElementById("root")!).render(<App />);

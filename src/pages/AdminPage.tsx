@@ -28,10 +28,10 @@ export default function AdminPage() {
       try {
         const fetchedPosts = await getPosts();
         // Sort by date (newest first)
-        const sortedPosts = fetchedPosts.sort(
+        const sortedPosts = fetchedPosts ? fetchedPosts.sort(
           (a, b) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
+        ) : [];
         setPosts(sortedPosts);
       } catch (error) {
         console.error("Failed to fetch posts:", error);

@@ -28,10 +28,13 @@ export default function AdminPage() {
       try {
         const fetchedPosts = await getPosts();
         // Sort by date (newest first)
-        const sortedPosts = fetchedPosts ? fetchedPosts.sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        ) : [];
+        const sortedPosts = fetchedPosts
+          ? fetchedPosts.sort(
+              (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+            )
+          : [];
         setPosts(sortedPosts);
       } catch (error) {
         console.error("Failed to fetch posts:", error);
@@ -143,22 +146,22 @@ export default function AdminPage() {
                     {post.comments?.length || 0}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <div className="flex justify-end space-x-2">
+                    <div className="flex justify-end space-x-3 items-center">
                       <Link
                         to={`/posts/${post.slug}`}
-                        className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                        className="px-2 py-1 rounded text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
                       >
                         View
                       </Link>
                       <Link
                         to={`/admin/edit/${post.id}`}
-                        className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
+                        className="px-2 py-1 rounded text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
                       >
                         Edit
                       </Link>
                       <button
                         onClick={() => handleDelete(post.id)}
-                        className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                        className="px-2 py-1 rounded text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
                       >
                         Delete
                       </button>

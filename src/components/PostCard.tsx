@@ -33,7 +33,7 @@ export default function PostCard({ post }: PostCardProps) {
               alt={post.author.name}
               className="h-6 w-6 rounded-full"
             />
-            <span className="text-sm text-gray-600 dark:text-gray-400">
+            <span className="text-sm text-gray-600 dark:text-gray-400 pl-1">
               {post.author.name}
             </span>
           </div>

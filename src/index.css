@@ -49,6 +49,16 @@
   }
 }
 
+/* Remove focus outline from markdown editor */
+.w-md-editor:focus,
+.w-md-editor-text:focus,
+.w-md-editor-text-input:focus,
+.w-md-editor-text-area:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: inherit !important;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

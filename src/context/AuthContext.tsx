@@ -37,6 +37,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       authorizationParams={{
         redirect_uri: redirectUri,
       }}
+      useRefreshTokens={true}
+      cacheLocation="localstorage"
     >
       <AuthProviderWithAuth0>{children}</AuthProviderWithAuth0>
     </Auth0Provider>
@@ -66,7 +68,11 @@ function AuthProviderWithAuth0({ children }: { children: ReactNode }) {
   };
 
   const handleLogout = () => {
-    logout({ logoutParams: { returnTo: window.location.origin } });
+    logout({
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    });
   };
 
   const value = {

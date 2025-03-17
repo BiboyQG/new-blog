@@ -123,7 +123,7 @@ export default function PostPage() {
           </h1>
 
           <div className="flex flex-wrap gap-2 mb-8">
-            {post.tags.map((tag) => (
+            {post.tags?.map((tag) => (
               <span
                 key={tag.id}
                 className="inline-block bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-3 py-1 text-sm"

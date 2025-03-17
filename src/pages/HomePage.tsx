@@ -13,7 +13,8 @@ export default function HomePage() {
       try {
         const fetchedPosts = await getPosts();
         // Filter to only show published posts
-        const publishedPosts = fetchedPosts.filter((post) => post.published);
+        const publishedPosts =
+          fetchedPosts?.filter((post) => post.published) || [];
         // Sort by date (newest first)
         const sortedPosts = publishedPosts.sort(
           (a, b) =>

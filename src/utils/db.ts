@@ -1,33 +1,50 @@
+// This file is now deprecated. All database operations should go through the API.
+// Keeping this file for backward compatibility, but it's no longer used for database operations.
+
 import { neonConfig } from "../api/neon";
 
-// This is a placeholder for setting up a client connection to Neon
-// You'll need to replace this with an actual database client implementation
-// This example uses a simple approach - in a real app, you might use an ORM or query builder
+// Define types for our database client
+interface DbQueryResult {
+  rows: Record<string, unknown>[];
+  rowCount?: number;
+}
 
-export const createNeonClient = () => {
-  // Check if connection string is available
-  if (!neonConfig.connectionString) {
-    console.error("Neon database connection string not found");
-    return null;
-  }
+interface DbClient {
+  query: (text: string, params?: unknown[]) => Promise<DbQueryResult>;
+}
 
-  // In a real implementation, you would initialize the client here
-  // For example with node-postgres:
-  // const { Pool } = require('pg');
-  // const pool = new Pool({ connectionString: neonConfig.connectionString });
-  // return pool;
+// Create a mock client that logs warnings and tells developers to use the API
+export const createNeonClient = (): DbClient => {
+  console.warn(
+    "⚠️ Direct database access deprecated! Use the API endpoints instead."
+  );
+  console.log(
+    "The backend API is now handling all database operations at http://localhost:8080/api"
+  );
 
-  // Return a mock for now
   return {
-    query: async (text: string, params: any[] = []) => {
-      console.log("Would execute query:", text, params);
-      console.log("Please implement an actual database client");
-      return { rows: [] };
+    query: async (
+      text: string,
+      params: unknown[] = []
+    ): Promise<DbQueryResult> => {
+      console.warn(
+        "⚠️ Attempted to use deprecated direct database access! Please use the API endpoints instead."
+      );
+      console.log("Query:", text);
+      console.log("Parameters:", params);
+      return { rows: [], rowCount: 0 };
     },
   };
 };
 
 // Create a singleton instance
 const db = createNeonClient();
+
+// Helper function that's now a no-op
+export const initDatabase = async () => {
+  console.warn(
+    "⚠️ initDatabase is deprecated! Database schema is now managed by the backend API."
+  );
+};
 
 export default db;

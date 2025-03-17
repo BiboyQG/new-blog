@@ -34,6 +34,7 @@ export interface Comment {
 }
 
 export interface PostFormData {
+  id?: string;
   title: string;
   content: string;
   excerpt: string;

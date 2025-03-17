@@ -39,14 +39,16 @@ export default function PostCard({ post }: PostCardProps) {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <span
-                key={tag.id}
-                className="inline-block bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-1 text-xs"
-              >
-                {tag.name}
-              </span>
-            ))}
+            {post.tags &&
+              post.tags.length > 0 &&
+              post.tags.map((tag) => (
+                <span
+                  key={tag.id}
+                  className="inline-block bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-1 text-xs"
+                >
+                  {tag.name}
+                </span>
+              ))}
           </div>
         </div>
       </div>

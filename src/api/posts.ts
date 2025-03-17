@@ -1,35 +1,53 @@
 import { Post, PostFormData } from "../types";
 import { nanoid } from "nanoid";
-
-// This is a mock implementation - replace with actual Neon database implementation
-// We'll use localStorage for now as a placeholder
-
-const POSTS_STORAGE_KEY = "blog_posts";
-
-// Helper to initialize posts in localStorage if not present
-const initializePostsStorage = () => {
-  if (!localStorage.getItem(POSTS_STORAGE_KEY)) {
-    localStorage.setItem(POSTS_STORAGE_KEY, JSON.stringify([]));
-  }
-};
+import { API_CONFIG } from "./config";
 
 // Get all posts
 export const getPosts = async (): Promise<Post[]> => {
-  initializePostsStorage();
-  const posts = JSON.parse(localStorage.getItem(POSTS_STORAGE_KEY) || "[]");
-  return posts;
+  try {
+    const response = await fetch(`${API_CONFIG.baseUrl}/posts`);
+    if (!response.ok) {
+      throw new Error(`Error fetching posts: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error getting posts:", error);
+    return [];
+  }
 };
 
 // Get a single post by ID
 export const getPostById = async (id: string): Promise<Post | null> => {
-  const posts = await getPosts();
-  return posts.find((post) => post.id === id) || null;
+  try {
+    const response = await fetch(`${API_CONFIG.baseUrl}/posts/${id}`);
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null;
+      }
+      throw new Error(`Error fetching post: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error getting post by ID:", error);
+    return null;
+  }
 };
 
 // Get a single post by slug
 export const getPostBySlug = async (slug: string): Promise<Post | null> => {
-  const posts = await getPosts();
-  return posts.find((post) => post.slug === slug) || null;
+  try {
+    const response = await fetch(`${API_CONFIG.baseUrl}/posts/slug/${slug}`);
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null;
+      }
+      throw new Error(`Error fetching post: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error getting post by slug:", error);
+    return null;
+  }
 };
 
 // Create a new post
@@ -37,20 +55,33 @@ export const createPost = async (
   postData: PostFormData,
   author: any
 ): Promise<Post> => {
-  const posts = await getPosts();
+  try {
+    // Generate ID if not provided
+    const postWithId = {
+      ...postData,
+      id: postData.id || nanoid(),
+    };
 
-  const newPost: Post = {
-    id: nanoid(),
-    ...postData,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    author,
-    comments: [],
-    tags: postData.tags.map((tag) => ({ id: nanoid(), name: tag })),
-  };
+    const response = await fetch(`${API_CONFIG.baseUrl}/posts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        post: postWithId,
+        author: author,
+      }),
+    });
 
-  localStorage.setItem(POSTS_STORAGE_KEY, JSON.stringify([...posts, newPost]));
-  return newPost;
+    if (!response.ok) {
+      throw new Error(`Error creating post: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error creating post:", error);
+    throw error;
+  }
 };
 
 // Update an existing post
@@ -58,36 +89,43 @@ export const updatePost = async (
   id: string,
   postData: Partial<PostFormData>
 ): Promise<Post | null> => {
-  const posts = await getPosts();
-  const postIndex = posts.findIndex((post) => post.id === id);
+  try {
+    const response = await fetch(`${API_CONFIG.baseUrl}/posts/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
+    });
 
-  if (postIndex === -1) return null;
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null;
+      }
+      throw new Error(`Error updating post: ${response.statusText}`);
+    }
 
-  const updatedPost = {
-    ...posts[postIndex],
-    ...postData,
-    updatedAt: new Date().toISOString(),
-    tags: postData.tags
-      ? postData.tags.map((tag) => {
-          const existingTag = posts[postIndex].tags.find((t) => t.name === tag);
-          return existingTag || { id: nanoid(), name: tag };
-        })
-      : posts[postIndex].tags,
-  };
-
-  posts[postIndex] = updatedPost;
-  localStorage.setItem(POSTS_STORAGE_KEY, JSON.stringify(posts));
-
-  return updatedPost;
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating post:", error);
+    return null;
+  }
 };
 
 // Delete a post
 export const deletePost = async (id: string): Promise<boolean> => {
-  const posts = await getPosts();
-  const filteredPosts = posts.filter((post) => post.id !== id);
+  try {
+    const response = await fetch(`${API_CONFIG.baseUrl}/posts/${id}`, {
+      method: "DELETE",
+    });
 
-  if (filteredPosts.length === posts.length) return false;
+    if (!response.ok) {
+      throw new Error(`Error deleting post: ${response.statusText}`);
+    }
 
-  localStorage.setItem(POSTS_STORAGE_KEY, JSON.stringify(filteredPosts));
-  return true;
+    return true;
+  } catch (error) {
+    console.error("Error deleting post:", error);
+    return false;
+  }
 };

@@ -1,26 +1,20 @@
 import { Comment, CommentFormData } from "../types";
-import { nanoid } from "nanoid";
-import { getPostById } from "./posts";
-
-// This is a mock implementation - replace with actual Neon database implementation
-// We'll use the posts localStorage from posts.ts since comments are stored within posts
-
-const POSTS_STORAGE_KEY = "blog_posts";
-
-// Helper to get posts from localStorage
-const getPosts = () => {
-  return JSON.parse(localStorage.getItem(POSTS_STORAGE_KEY) || "[]");
-};
-
-// Helper to save posts to localStorage
-const savePosts = (posts: any[]) => {
-  localStorage.setItem(POSTS_STORAGE_KEY, JSON.stringify(posts));
-};
+import { API_CONFIG } from "./config";
 
 // Get comments for a post
 export const getComments = async (postId: string): Promise<Comment[]> => {
-  const post = await getPostById(postId);
-  return post?.comments || [];
+  try {
+    const response = await fetch(
+      `${API_CONFIG.baseUrl}/comments/post/${postId}`
+    );
+    if (!response.ok) {
+      throw new Error(`Error fetching comments: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error getting comments:", error);
+    return [];
+  }
 };
 
 // Add a comment to a post
@@ -29,43 +23,47 @@ export const addComment = async (
   commentData: CommentFormData,
   author: any
 ): Promise<Comment | null> => {
-  const posts = getPosts();
-  const postIndex = posts.findIndex((post: any) => post.id === postId);
+  try {
+    const response = await fetch(`${API_CONFIG.baseUrl}/comments`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        postId,
+        comment: commentData,
+        author,
+      }),
+    });
 
-  if (postIndex === -1) return null;
+    if (!response.ok) {
+      throw new Error(`Error adding comment: ${response.statusText}`);
+    }
 
-  const newComment: Comment = {
-    id: nanoid(),
-    content: commentData.content,
-    createdAt: new Date().toISOString(),
-    author,
-    postId,
-  };
-
-  posts[postIndex].comments.push(newComment);
-  savePosts(posts);
-
-  return newComment;
+    return await response.json();
+  } catch (error) {
+    console.error("Error adding comment:", error);
+    return null;
+  }
 };
 
 // Delete a comment
-export const deleteComment = async (
-  postId: string,
-  commentId: string
-): Promise<boolean> => {
-  const posts = getPosts();
-  const postIndex = posts.findIndex((post: any) => post.id === postId);
+export const deleteComment = async (commentId: string): Promise<boolean> => {
+  try {
+    const response = await fetch(
+      `${API_CONFIG.baseUrl}/comments/${commentId}`,
+      {
+        method: "DELETE",
+      }
+    );
 
-  if (postIndex === -1) return false;
+    if (!response.ok) {
+      throw new Error(`Error deleting comment: ${response.statusText}`);
+    }
 
-  const commentIndex = posts[postIndex].comments.findIndex(
-    (comment: any) => comment.id === commentId
-  );
-
-  if (commentIndex === -1) return false;
-
-  posts[postIndex].comments.splice(commentIndex, 1);
-  savePosts(posts);
-
-  return true;
+    return true;
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    return false;
+  }
 };

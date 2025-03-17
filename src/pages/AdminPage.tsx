@@ -149,19 +149,19 @@ export default function AdminPage() {
                     <div className="flex justify-end space-x-3 items-center">
                       <Link
                         to={`/posts/${post.slug}`}
-                        className="px-2 py-1 rounded text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                        className="px-2 py-1 rounded text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
                       >
                         View
                       </Link>
                       <Link
                         to={`/admin/edit/${post.id}`}
-                        className="px-2 py-1 rounded text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"
+                        className="px-2 py-1 rounded text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
                       >
                         Edit
                       </Link>
                       <button
                         onClick={() => handleDelete(post.id)}
-                        className="px-2 py-1 rounded text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                        className="px-2 py-1 rounded bg-white hover:bg-red-50 text-red-600 hover:text-red-700 border border-transparent hover:border-red-200 transition-colors duration-200 dark:bg-gray-700 dark:hover:bg-red-900/30 dark:text-red-400 dark:hover:text-red-300 dark:hover:border-red-800"
                       >
                         Delete
                       </button>

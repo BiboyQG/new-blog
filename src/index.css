@@ -21,19 +21,19 @@
 
   /* Custom blog post styling */
   .blog-post {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden p-6 mb-6;
+    @apply bg-gray-800 dark:bg-gray-800 rounded-lg shadow overflow-hidden p-8 my-8;
   }
 
   .blog-post-title {
-    @apply text-xl font-semibold text-gray-900 dark:text-white mb-2 hover:text-blue-600 dark:hover:text-blue-400;
+    @apply text-2xl font-bold text-white dark:text-white mb-4 leading-tight;
   }
 
   .blog-post-meta {
-    @apply text-sm text-gray-500 dark:text-gray-400 mb-4;
+    @apply text-sm text-gray-400 dark:text-gray-400 mt-3;
   }
 
   .blog-post-excerpt {
-    @apply text-gray-600 dark:text-gray-300 mb-4;
+    @apply text-gray-400 dark:text-gray-400;
   }
 
   .blog-tag {

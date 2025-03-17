@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getPosts } from "../api/posts";
 import { Post } from "../types";
 import PostCard from "../components/PostCard";
+import Welcome from "../components/Welcome";
 
 export default function HomePage() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -32,26 +33,49 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="w-full max-w-screen-xl mx-auto px-6 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-        Latest Posts
-      </h1>
+    <div className="w-full max-w-screen-xl mx-auto">
+      {/* Welcome Section */}
+      <Welcome />
 
-      {isLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <p className="text-gray-600 dark:text-gray-400">Loading posts...</p>
-        </div>
-      ) : posts.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-600 dark:text-gray-400">No posts found.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
-      )}
+      <div className="w-full max-w-screen-lg mx-auto px-6 py-4">
+        {isLoading ? (
+          <div className="flex justify-center items-center h-64">
+            <p className="text-gray-600 dark:text-gray-400">Loading posts...</p>
+          </div>
+        ) : posts.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600 dark:text-gray-400">No posts found.</p>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {posts.map((post) => (
+              <div key={post.id} className="blog-post">
+                <h2 className="blog-post-title">
+                  <a href={`/posts/${post.slug}`}>{post.title}</a>
+                </h2>
+                <div className="blog-post-meta">
+                  {new Date(post.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}{" "}
+                  · 4 min · {post.author?.name || "Banghao Chi"}
+                </div>
+                <p className="blog-post-excerpt">{post.excerpt}</p>
+                {post.tags && post.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {post.tags.map((tag) => (
+                      <span key={tag.id} className="blog-tag">
+                        {tag.name}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

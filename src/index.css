@@ -18,6 +18,35 @@
   .btn-secondary {
     @apply btn bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-500 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600;
   }
+
+  /* Custom blog post styling */
+  .blog-post {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden p-6 mb-6;
+  }
+
+  .blog-post-title {
+    @apply text-xl font-semibold text-gray-900 dark:text-white mb-2 hover:text-blue-600 dark:hover:text-blue-400;
+  }
+
+  .blog-post-meta {
+    @apply text-sm text-gray-500 dark:text-gray-400 mb-4;
+  }
+
+  .blog-post-excerpt {
+    @apply text-gray-600 dark:text-gray-300 mb-4;
+  }
+
+  .blog-tag {
+    @apply inline-block bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-1 text-xs;
+  }
+
+  .welcome-section {
+    @apply w-full max-w-screen-lg mx-auto px-6 py-8;
+  }
+
+  .emoji-list li {
+    @apply list-disc pl-5 my-1;
+  }
 }
 
 :root {

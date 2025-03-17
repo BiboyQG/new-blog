@@ -1,6 +1,3 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
 export default function Welcome() {
   return (
     <div className="welcome-section">
@@ -22,7 +19,7 @@ export default function Welcome() {
           .
         </p>
 
-        <ul className="emoji-list space-y-2">
+        <ul className="space-y-2 list-disc pl-5">
           <li>I'm documenting my learning notes in this blog 😊</li>
           <li>
             This is a space where I will mostly be sharing about{" "}

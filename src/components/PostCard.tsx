@@ -9,7 +9,7 @@ interface PostCardProps {
 export default function PostCard({ post }: PostCardProps) {
   return (
     <Link to={`/posts/${post.slug}`} className="block">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg hover:scale-[1.02]">
+      <div className="bg-white dark:bg-[rgb(46,46,51)] rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg hover:scale-[1.02]">
         <div className="p-6">
           <div className="flex items-center mb-2">
             <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -17,7 +17,7 @@ export default function PostCard({ post }: PostCardProps) {
             </span>
           </div>
 
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+          <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">
             {post.title}
           </h2>
 

@@ -17,6 +17,20 @@ export default function Header() {
           >
             Banghao's Blog
           </Link>
+
+          <button
+            onClick={toggleTheme}
+            className="ml-3 p-2 rounded-full text-gray-700 dark:text-gray-300 bg-transparent border-none hover:bg-transparent dark:hover:bg-transparent"
+            aria-label={
+              theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+            }
+          >
+            {theme === "dark" ? (
+              <SunIcon className="h-5 w-5" />
+            ) : (
+              <MoonIcon className="h-5 w-5" />
+            )}
+          </button>
         </div>
 
         <nav className="flex items-center space-x-4">
@@ -35,20 +49,6 @@ export default function Header() {
               Admin
             </Link>
           )}
-
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
-            aria-label={
-              theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
-            }
-          >
-            {theme === "dark" ? (
-              <SunIcon className="h-5 w-5" />
-            ) : (
-              <MoonIcon className="h-5 w-5" />
-            )}
-          </button>
 
           {isAuthenticated ? (
             <div className="flex items-center space-x-4">

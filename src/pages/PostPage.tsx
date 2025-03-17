@@ -81,7 +81,7 @@ export default function PostPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <article className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+      <article className="max-w-4xl mx-auto bg-white dark:bg-[rgb(46,46,51)] rounded-lg shadow-md overflow-hidden">
         <div className="p-8">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-4">

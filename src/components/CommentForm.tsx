@@ -50,7 +50,7 @@ export default function CommentForm({
         <textarea
           id="comment"
           rows={4}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-[rgb(29,30,32)] text-gray-900 dark:text-white"
           placeholder={
             isAuthenticated ? "Write your comment here..." : "Login to comment"
           }

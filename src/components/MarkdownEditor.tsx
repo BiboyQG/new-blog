@@ -36,10 +36,13 @@ export default function MarkdownEditor({
         value={editorValue}
         onChange={handleChange}
         height={height}
-        preview="edit"
-        placeholder={placeholder}
+        preview="live"
+        textareaProps={{
+          placeholder: placeholder,
+        }}
         className="rounded-md border border-gray-300 dark:border-gray-700"
         enableScroll={true}
+        hideToolbar={true}
       />
     </div>
   );

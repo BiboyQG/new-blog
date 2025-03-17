@@ -13,22 +13,22 @@ export default function Header() {
         <div className="flex items-center">
           <Link
             to="/"
-            className="text-2xl font-bold text-gray-900 dark:text-white"
+            className="text-2xl font-bold text-gray-900 dark:text-[rgb(218,218,219)]"
           >
             Banghao's Blog
           </Link>
 
           <button
             onClick={toggleTheme}
-            className="ml-3 p-2 rounded-full text-gray-700 dark:text-gray-300 bg-transparent border-none hover:bg-transparent dark:hover:bg-transparent"
+            className="ml-1 p-2 rounded-full text-gray-700 dark:text-gray-300 bg-transparent border-none hover:bg-transparent dark:hover:bg-transparent"
             aria-label={
               theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
             }
           >
             {theme === "dark" ? (
-              <SunIcon className="h-5 w-5" />
+              <SunIcon className="h-6 w-6" />
             ) : (
-              <MoonIcon className="h-5 w-5" />
+              <MoonIcon className="h-6 w-6" />
             )}
           </button>
         </div>

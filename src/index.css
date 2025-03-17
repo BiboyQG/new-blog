@@ -41,7 +41,7 @@
   }
 
   .welcome-section {
-    @apply w-full max-w-screen-lg mx-auto px-6 py-8;
+    @apply w-full max-w-screen-md mx-auto px-6 py-8;
   }
 
   .emoji-list li {

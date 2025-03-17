@@ -8,7 +8,7 @@ export default function Header() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="bg-white dark:bg-gray-800 shadow transition-all">
+    <header className="bg-transparent transition-all">
       <div className="w-full max-w-screen-xl mx-auto flex items-center justify-between h-16 px-6">
         <div className="flex items-center">
           <Link

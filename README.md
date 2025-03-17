@@ -1,87 +1,133 @@
-# Personal Blog with React and Neon Database
+# Full-Stack Blog Application
 
-A modern blog application built with React, Tailwind CSS, and Neon Database. Features include Google authentication, markdown editing, and dark/light theme support.
+A modern, responsive blog application built with React and Go. This project features a React frontend with Tailwind CSS for styling and a Go backend using Gin framework with PostgreSQL (Neon) database.
 
 ## Features
 
-- **Authentication**: Login with Google via Auth0
-- **Role-based Access Control**: Admin privileges for content management
-- **Markdown Support**: Live markdown editor and renderer
-- **Comments**: Authenticated users can comment on posts
-- **Theming**: Dark and light mode support with theme toggle
-- **Responsive Design**: Built with Tailwind CSS
+- Modern, responsive UI with dark mode support
+- Markdown-based blog post editor
+- Authentication using Auth0
+- Admin dashboard for content management
+- Comments system
+- Tag-based categorization
+- PostgreSQL database using Neon
 
 ## Tech Stack
 
-- **Frontend**: React with TypeScript and Vite
-- **Styling**: Tailwind CSS
-- **Database**: Neon Serverless Postgres
-- **Authentication**: Auth0
-- **Markdown**: react-markdown, @uiw/react-md-editor
-- **Forms**: react-hook-form with zod validation
-- **Utilities**: date-fns, clsx, nanoid
+### Frontend
 
-## Setup Instructions
+- React 19
+- TypeScript
+- Vite
+- React Router
+- Tailwind CSS
+- Headless UI
+- Hero Icons
+- React Markdown
+- React Hook Form
+- Zod for validation
+
+### Backend
+
+- Go
+- Gin framework
+- PostgreSQL (Neon)
+
+## Getting Started
 
 ### Prerequisites
 
 - Node.js 18+ and npm
-- Auth0 account
-- Neon database account
+- Go 1.20+
+- PostgreSQL database (or Neon account)
 
 ### Installation
 
 1. Clone the repository:
 
-   ```bash
-   git clone <repository-url>
-   cd blog
-   ```
+```bash
+git clone https://github.com/yourusername/blog.git
+cd blog
+```
 
-2. Install dependencies:
+2. Install frontend dependencies:
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
-3. Create environment variables:
-   Copy the `.env.example` file to `.env.local` and fill in your Auth0 and Neon credentials:
+3. Set up environment variables:
 
-   ```bash
-   cp .env.example .env.local
-   ```
+   - Copy `.env.example` to `.env.local` and fill in your values
 
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
+4. Run the backend server:
+
+```bash
+cd api
+go mod download
+go run main.go
+```
+
+5. Run the frontend development server:
+
+```bash
+npm run dev
+```
+
+6. Open your browser and navigate to: `http://localhost:5173`
 
 ## Project Structure
 
-- `/src/components` - Reusable UI components
-- `/src/pages` - Page components
-- `/src/context` - React context providers for auth and theme
-- `/src/api` - API services for data fetching
-- `/src/types` - TypeScript type definitions
-- `/src/utils` - Utility functions
-- `/src/hooks` - Custom React hooks
+- `/api` - Go backend code
+  - `/db` - Database initialization and configuration
+  - `/handlers` - API route handlers
+  - `/models` - Data models for the application
+- `/src` - React frontend code
+  - `/components` - Reusable UI components
+  - `/context` - React context providers
+  - `/pages` - Application pages
+  - `/api` - API client code
+  - `/utils` - Utility functions
+  - `/types` - TypeScript type definitions
+
+## API Endpoints
+
+- `/api/health` - Health check endpoint
+- `/api/posts` - Blog post CRUD operations
+- `/api/comments` - Comment operations
+- `/api/tags` - Tag management
+
+## Development
+
+### Frontend
+
+```bash
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Lint code
+npm run lint
+```
+
+### Backend
+
+```bash
+cd api
+
+# Run server
+go run main.go
+```
 
 ## Deployment
 
-This application can be deployed to any static hosting service:
-
-1. Build the application:
-
-   ```bash
-   npm run build
-   ```
-
-2. Deploy the contents of the `dist` folder to your hosting provider.
-
-## Admin Access
-
-Admin access is granted to the user with the email `m13971212844@gmail.com`. Only the admin can create, update, and delete blog posts.
+The application is designed to be easily deployed to platforms like Vercel for the frontend and Railway/Render for the backend.
 
 ## License
 
-MIT
+[MIT License](LICENSE)

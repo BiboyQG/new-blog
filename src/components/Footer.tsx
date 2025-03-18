@@ -28,12 +28,12 @@ export default function Footer() {
               LinkedIn
             </a>
             <a
-              href="https://twitter.com/yourusername"
+              href="https://scholar.google.com/citations?hl=en&authuser=1&user=0XAPPrEAAAAJ"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
             >
-              Twitter
+              Google Scholar
             </a>
           </div>
         </div>

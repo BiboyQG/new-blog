@@ -55,7 +55,7 @@ func NewPostService(db *sql.DB) *PostService {
 func (s *PostService) GetAll() ([]Post, error) {
 	rows, err := s.DB.Query(`
 		SELECT 
-			p.id, p.title, p.content, p.excerpt, p.slug, p.published, 
+			p.id, p.title, p.excerpt, p.slug, p.published, 
 			p.created_at, p.updated_at, 
 			p.author_id, p.author_email, p.author_name, p.author_picture, p.author_is_admin
 		FROM posts p
@@ -70,7 +70,7 @@ func (s *PostService) GetAll() ([]Post, error) {
 	for rows.Next() {
 		var post Post
 		if err := rows.Scan(
-			&post.ID, &post.Title, &post.Content, &post.Excerpt, &post.Slug, &post.Published,
+			&post.ID, &post.Title, &post.Excerpt, &post.Slug, &post.Published,
 			&post.CreatedAt, &post.UpdatedAt,
 			&post.Author.ID, &post.Author.Email, &post.Author.Name, &post.Author.Picture, &post.Author.IsAdmin,
 		); err != nil {

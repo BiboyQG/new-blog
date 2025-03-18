@@ -34,7 +34,13 @@ export default function Header() {
         </div>
 
         <nav className="flex items-center space-x-4">
-          
+          <Link
+            to="/"
+            className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+          >
+            Home
+          </Link>
+
           {isAuthenticated && user?.isAdmin && (
             <Link
               to="/admin"
@@ -61,7 +67,7 @@ export default function Header() {
               </button>
             </div>
           ) : (
-            <button onClick={login} className="btn-primary text-sm">
+            <button onClick={login} className="btn-secondary text-sm">
               Login
             </button>
           )}

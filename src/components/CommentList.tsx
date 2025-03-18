@@ -71,7 +71,7 @@ export default function CommentList({
         {comments.map((comment) => (
           <div
             key={comment.id}
-            className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg"
+            className="bg-gray-50 dark:bg-[rgb(26,28,28)] p-4 rounded-lg"
           >
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center space-x-2">
@@ -93,11 +93,11 @@ export default function CommentList({
               {comment.content}
             </p>
 
-            {(user?.isAdmin || user?.id === comment.author.id) && (
+            {user?.isAdmin && (
               <div className="mt-2 flex justify-end">
                 <button
                   onClick={() => handleDeleteComment(comment.id)}
-                  className="text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                  className="text-sm text-red-600 hover:text-red-800 dark:text-red-400 dark:bg-[rgb(26,28,28)] dark:hover:text-red-300 dark:hover:bg-[rgb(55,24,24)]"
                 >
                   Delete
                 </button>

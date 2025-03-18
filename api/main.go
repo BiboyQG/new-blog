@@ -87,10 +87,6 @@ func initializeRoutes(router *gin.Engine) {
 			})
 		})
 
-		// Register Todo handlers (keep for backward compatibility)
-		todoHandler := handlers.NewTodoHandler()
-		todoHandler.RegisterRoutes(api)
-
 		// Register Blog API handlers
 		postHandler := handlers.NewPostHandler()
 		postHandler.RegisterRoutes(api)

@@ -11,6 +11,7 @@ A modern, responsive blog application built with React and Go. This project feat
 - Comments system
 - Tag-based categorization
 - PostgreSQL database using Neon
+- Cache system for posts and comments
 
 ## Tech Stack
 

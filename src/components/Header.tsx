@@ -34,13 +34,7 @@ export default function Header() {
         </div>
 
         <nav className="flex items-center space-x-4">
-          <Link
-            to="/"
-            className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-          >
-            Home
-          </Link>
-
+          
           {isAuthenticated && user?.isAdmin && (
             <Link
               to="/admin"

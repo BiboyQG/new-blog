@@ -84,7 +84,7 @@ export default function CommentList({
 
         <button
           onClick={refreshComments}
-          className="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+          className="text-sm text-blue-600 bg-gray-100 dark:bg-gray-900 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
         >
           Refresh
         </button>

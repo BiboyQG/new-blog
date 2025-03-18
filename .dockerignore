@@ -1,0 +1,17 @@
+# Common
+node_modules
+.git
+.github
+*.md
+!README.md
+.vscode
+**/.DS_Store
+**/.gitignore
+
+# Frontend specific
+dist
+npm-debug.log
+.env.local
+
+# Backend specific
+api/**/.env.local 

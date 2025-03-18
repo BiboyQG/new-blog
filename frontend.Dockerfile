@@ -26,6 +26,20 @@ FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Create a script to generate runtime config from environment variables
+RUN echo '#!/bin/sh \n\
+cat > /usr/share/nginx/html/config.js << EOF \n\
+window.RUNTIME_CONFIG = { \n\
+  AUTH0_DOMAIN: "${AUTH0_DOMAIN}", \n\
+  AUTH0_CLIENT_ID: "${AUTH0_CLIENT_ID}", \n\
+  AUTH0_CALLBACK_URL: "${AUTH0_CALLBACK_URL}", \n\
+  API_URL: "${API_URL}" \n\
+}; \n\
+EOF \n\
+exec "$@" \n\
+' > /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh
+
 EXPOSE 80
 
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"] 

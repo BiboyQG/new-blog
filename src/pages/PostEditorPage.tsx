@@ -206,7 +206,7 @@ export default function PostEditorPage() {
               type="text"
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
-              className="flex-grow px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-l-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+              className="flex-grow px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded-l-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-white text-sm"
               placeholder="Add a tag"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -218,7 +218,7 @@ export default function PostEditorPage() {
             <button
               type="button"
               onClick={handleAddTag}
-              className="px-4 py-2 bg-blue-600 text-white rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+              className="px-3 py-1.5 bg-blue-600 text-white text-sm font-medium rounded-r-md hover:bg-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:ring-offset-1 transition-colors duration-200"
             >
               Add
             </button>
@@ -228,18 +228,18 @@ export default function PostEditorPage() {
             {tags.map((tag, index) => (
               <div
                 key={index}
-                className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-blue-50 text-blue-700 dark:bg-blue-800 dark:text-blue-100 transition-colors duration-200"
+                className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-600 text-white dark:bg-blue-600 dark:text-blue-50 transition-colors duration-200"
               >
                 {tag}
                 <button
                   type="button"
                   onClick={() => handleRemoveTag(tag)}
-                  className="ml-1.5 text-blue-500 hover:text-blue-700 dark:text-blue-200 dark:hover:text-blue-50 focus:outline-none transition-colors duration-200"
+                  className="ml-1 text-white hover:text-blue-100 dark:text-blue-100 dark:hover:text-white focus:outline-none transition-colors duration-200"
                   aria-label={`Remove tag ${tag}`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
+                    className="h-3.5 w-3.5"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >

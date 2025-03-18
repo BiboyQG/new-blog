@@ -116,20 +116,6 @@ func InitSchema() error {
 		return fmt.Errorf("failed to create comments table: %w", err)
 	}
 
-	// Keep the todos table for backward compatibility
-	_, err = db.Exec(`
-		CREATE TABLE IF NOT EXISTS todos (
-			id SERIAL PRIMARY KEY,
-			title TEXT NOT NULL,
-			completed BOOLEAN DEFAULT FALSE,
-			created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-			updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-		)
-	`)
-	if err != nil {
-		return fmt.Errorf("failed to create todos table: %w", err)
-	}
-
 	log.Println("Database schema initialized")
 	return nil
 }

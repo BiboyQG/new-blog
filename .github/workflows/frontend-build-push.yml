@@ -54,5 +54,9 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/blog-frontend:${{ github.sha }}
+          build-args: |
+            VITE_AUTH0_DOMAIN=${{ secrets.VITE_AUTH0_DOMAIN }}
+            VITE_AUTH0_CLIENT_ID=${{ secrets.VITE_AUTH0_CLIENT_ID }}
+            VITE_AUTH0_CALLBACK_URL=${{ secrets.VITE_AUTH0_CALLBACK_URL }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

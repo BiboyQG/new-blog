@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { getPostBySlug, deletePost } from "../api/posts";
 import { Post } from "../types";
 import { useAuth } from "../context/AuthContext";
+import { useCache } from "../utils/useCache";
 import MarkdownDisplay from "../components/MarkdownDisplay";
 import CommentList from "../components/CommentList";
 import CommentForm from "../components/CommentForm";
@@ -12,6 +13,7 @@ export default function PostPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { clearPostCommentsCache } = useCache();
   const [post, setPost] = useState<Post | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshComments, setRefreshComments] = useState(0);
@@ -49,6 +51,9 @@ export default function PostPage() {
 
   const handleCommentAdded = () => {
     setRefreshComments((prev) => prev + 1);
+    if (post) {
+      clearPostCommentsCache(post.id);
+    }
   };
 
   if (isLoading) {

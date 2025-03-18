@@ -20,7 +20,7 @@ COPY --from=build /app/blog-api .
 
 # Copy any needed environment variables
 # (In production, use proper secrets management)
-COPY api/.env.example .env
+COPY .env.example .env
 
 EXPOSE 8080
 

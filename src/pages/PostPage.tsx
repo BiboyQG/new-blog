@@ -123,10 +123,6 @@ export default function PostPage() {
             )}
           </div>
 
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-            {post.title}
-          </h1>
-
           <div className="flex flex-wrap gap-2 mb-8">
             {post.tags?.map((tag) => (
               <span

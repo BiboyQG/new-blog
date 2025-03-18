@@ -36,17 +36,17 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: google-github-actions/setup-gcloud@v1
 
-      - name: Configure Docker for GCR
+      - name: Configure Docker for Artifact Registry
         if: github.event_name != 'pull_request'
-        run: gcloud auth configure-docker
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
-      - name: Build and push to Google Container Registry
+      - name: Build and push to Google Artifact Registry
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./backend.Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            gcr.io/${{ secrets.GCP_PROJECT_ID }}/blog-backend:latest
+            us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/blog-backend/blog-backend:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max

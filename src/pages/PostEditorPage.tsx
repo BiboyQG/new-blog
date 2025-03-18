@@ -48,7 +48,7 @@ export default function PostEditorPage() {
           setValue("excerpt", post.excerpt);
           setValue("slug", post.slug);
           setValue("published", post.published);
-          setContent(post.content);
+          setContent(post.content ?? "");
           setTags(post.tags.map((tag) => tag.name));
         }
       } catch (error) {
@@ -189,11 +189,7 @@ export default function PostEditorPage() {
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Content
           </label>
-          <MarkdownEditor
-            value={content}
-            onChange={setContent}
-            height={400}
-          />
+          <MarkdownEditor value={content} onChange={setContent} height={400} />
           {content.trim() === "" && (
             <p className="mt-1 text-sm text-red-600 dark:text-red-400">
               Content is required

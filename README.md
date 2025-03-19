@@ -1,6 +1,6 @@
 # Full-Stack Blog Application
 
-A modern, responsive blog application built with React and Go. This project features a React frontend with Tailwind CSS for styling and a Go backend using Gin framework with PostgreSQL (Neon) database.
+A modern, responsive blog application built with React and Go. This project features a React frontend with Tailwind CSS for styling and a Go backend using Gin framework with PostgreSQL (Neon) database. You can preview the live site [here](https://banghao.live).
 
 ## Features
 
@@ -127,7 +127,46 @@ go run main.go
 
 ## Deployment
 
-The application is designed to be easily deployed to platforms like Vercel for the frontend and Railway/Render for the backend.
+The project can be easily deployed using Docker with separate containerization for frontend and backend:
+
+### Docker Deployment
+
+#### Frontend
+
+The frontend uses Nginx to serve static files:
+
+```bash
+# Build the Docker image
+docker build -t blog-frontend:tag \                                    
+  --build-arg VITE_AUTH0_DOMAIN=your-auth0-domain.auth0.com \
+  --build-arg VITE_AUTH0_CLIENT_ID=your-auth0-client-id \
+  --build-arg VITE_AUTH0_CALLBACK_URL=your-auth0-callback-url \
+  --build-arg VITE_API_URL=http://localhost:8080/api \
+  -f frontend.Dockerfile .
+
+# Run the container
+docker run -p 80:80 blog-frontend
+```
+
+#### Backend
+
+The backend compiles the Go application and runs the binary:
+
+```bash
+# Build the Docker image
+docker build -f backend.Dockerfile -t blog-backend .
+
+# Run the container
+docker run -d -p 8080:8080 --name blog-backend-container \             
+  -e PORT=8080 \                                                   
+  -e NEON_DATABASE_URL="your-neon-database-connection-string" \
+  blog-backend:tag
+```
+
+### Cloud Deployment
+
+- **Google Cloud Run**: The live preview at [https://banghao.live](https://banghao.live) is deployed using Google Cloud Run
+- **PaaS Options**: For simpler deployment, you can choose platforms like Netlify (frontend) and Render (backend), which provide streamlined CI/CD pipelines
 
 ## License
 

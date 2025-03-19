@@ -2,6 +2,8 @@
 
 A modern, responsive blog application built with React and Go. This project features a React frontend with Tailwind CSS for styling and a Go backend using Gin framework with PostgreSQL (Neon) database. You can preview the live site [here](https://banghao.live).
 
+![preview.png](https://s2.loli.net/2025/03/19/nXi9HrTVgdysZ2q.png)
+
 ## Features
 
 - Modern, responsive UI with dark mode support

@@ -141,7 +141,7 @@ docker build -t blog-frontend:tag \
   --build-arg VITE_AUTH0_DOMAIN=your-auth0-domain.auth0.com \
   --build-arg VITE_AUTH0_CLIENT_ID=your-auth0-client-id \
   --build-arg VITE_AUTH0_CALLBACK_URL=your-auth0-callback-url \
-  --build-arg VITE_API_URL=http://localhost:8080/api \
+  --build-arg VITE_API_URL=your-backend-url/api \
   -f frontend.Dockerfile .
 
 # Run the container

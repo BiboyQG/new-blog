@@ -34,10 +34,11 @@ export default function HomePage() {
 
   return (
     <div className="w-full max-w-screen-xl mx-auto">
-      {/* Welcome Section */}
-      <Welcome />
+      <div className="my-3">
+        <Welcome />
+      </div>
 
-      <div className="w-full max-w-screen-md mx-auto px-6 py-4">
+      <div className="w-full max-w-screen-md mx-auto px-6 py-4 my-4">
         {isLoading ? (
           <div className="flex justify-center items-center h-64">
             <p className="text-gray-600 dark:text-gray-400">Loading posts...</p>

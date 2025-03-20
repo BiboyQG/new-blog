@@ -4,6 +4,7 @@ import { Comment } from "../types";
 import { useAuth } from "../context/AuthContext";
 import { useCache } from "../utils/useCache";
 import { getComments, deleteComment } from "../api/comments";
+import Spinner from "./Spinner";
 
 interface CommentListProps {
   postId: string;
@@ -69,8 +70,10 @@ export default function CommentList({
 
   if (isLoading) {
     return (
-      <div className="mt-8 text-center text-gray-600 dark:text-gray-400">
-        Loading comments...
+      <div className="container mx-auto py-8">
+        <div className="flex justify-center items-center h-64">
+          <Spinner size="lg" />
+        </div>
       </div>
     );
   }

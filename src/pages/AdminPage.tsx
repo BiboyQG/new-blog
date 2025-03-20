@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { getPosts, deletePost } from "../api/posts";
 import { Post } from "../types";
 import { useAuth } from "../context/AuthContext";
+import Spinner from "../components/Spinner";
 
 export default function AdminPage() {
   const navigate = useNavigate();
@@ -69,8 +70,10 @@ export default function AdminPage() {
       </div>
 
       {isLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <p className="text-gray-600 dark:text-gray-400">Loading posts...</p>
+        <div className="container mx-auto py-8">
+          <div className="flex justify-center items-center h-64">
+            <Spinner size="lg" />
+          </div>
         </div>
       ) : posts.length === 0 ? (
         <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow">

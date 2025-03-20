@@ -3,6 +3,7 @@ import { getPosts } from "../api/posts";
 import { Post } from "../types";
 import PostCard from "../components/PostCard";
 import Welcome from "../components/Welcome";
+import Spinner from "../components/Spinner";
 
 export default function HomePage() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -41,7 +42,7 @@ export default function HomePage() {
       <div className="w-full max-w-screen-md mx-auto px-6 py-4 my-4">
         {isLoading ? (
           <div className="flex justify-center items-center h-64">
-            <p className="text-gray-600 dark:text-gray-400">Loading posts...</p>
+            <Spinner size="lg" />
           </div>
         ) : posts.length === 0 ? (
           <div className="text-center py-12">

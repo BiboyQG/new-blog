@@ -8,6 +8,7 @@ import { useCache } from "../utils/useCache";
 import MarkdownDisplay from "../components/MarkdownDisplay";
 import CommentList from "../components/CommentList";
 import CommentForm from "../components/CommentForm";
+import Spinner from "../components/Spinner";
 
 export default function PostPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -60,7 +61,7 @@ export default function PostPage() {
     return (
       <div className="container mx-auto py-8">
         <div className="flex justify-center items-center h-64">
-          <p className="text-gray-600 dark:text-gray-400">Loading post...</p>
+          <Spinner size="lg" />
         </div>
       </div>
     );
@@ -135,7 +136,7 @@ export default function PostPage() {
           </div>
 
           <div className="mb-8">
-            <MarkdownDisplay content={post.content} />
+            <MarkdownDisplay content={post.content || ""} />
           </div>
 
           <div className="border-t border-gray-200 dark:border-gray-700 pt-8">

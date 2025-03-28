@@ -34,7 +34,7 @@ export default function MarkdownDisplay({
       // Create copy button
       const copyButton = document.createElement("button");
       copyButton.className =
-        "absolute top-2 right-2 p-1 rounded bg-gray-700 text-white transition-opacity text-xs";
+        "absolute top-2 right-2 p-1 rounded bg-[rgb(46,46,51)] text-white transition-opacity text-xs";
       copyButton.textContent = "Copy";
 
       // Add click handler

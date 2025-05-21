@@ -7,7 +7,7 @@ export default function Welcome() {
 
       <div className="space-y-3 text-gray-700 dark:text-gray-300 mb-8">
         <p>
-          Hi! This is Banghao Chi, an undergraduate student from University of
+          Hi! This is Banghao Chi, an M.S. CS student from University of
           Illinois at Urbana-Champaign and also a Research Assistant advised by{" "}
           <span className="font-medium">Prof. Minjia Zhang</span>. I'm also
           under the supervision of{" "}
@@ -16,14 +16,15 @@ export default function Welcome() {
             {" "}
             National Center for Supercomputing Applications(NCSA)
           </span>
-          .
+          . Before that, I was an Mathematics undergrad at University of
+          Illinois at Urbana-Champaign.
         </p>
 
         <ul className="space-y-2 list-disc pl-5">
           <li>I'm documenting my learning notes in this blog 😊</li>
           <li>
             This is a space where I will mostly be sharing about{" "}
-            <span className="font-medium">Computer Vision & NLP</span> 🤓
+            <span className="font-medium">Coding and Math</span> 🤓
           </li>
           <li>
             I also work on Fullstack development with{" "}
@@ -100,7 +101,6 @@ export default function Welcome() {
             <circle cx="4" cy="4" r="2"></circle>
           </svg>
         </a>
-        
       </div>
     </div>
   );

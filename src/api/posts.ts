@@ -11,22 +11,34 @@ const CACHE_KEYS = {
 };
 
 // Get all posts
-export const getPosts = async (): Promise<Post[]> => {
+export const getPosts = async (
+  page?: number,
+  limit?: number
+): Promise<Post[]> => {
   // Check cache first
-  const cachedPosts = cache.get<Post[]>(CACHE_KEYS.ALL_POSTS);
+  // Modify cache key to include page and limit for more granular caching
+  const cacheKey =
+    page && limit
+      ? `posts:all:page:${page}:limit:${limit}`
+      : CACHE_KEYS.ALL_POSTS;
+  const cachedPosts = cache.get<Post[]>(cacheKey);
   if (cachedPosts) {
     return cachedPosts;
   }
 
   try {
-    const response = await fetch(`${API_CONFIG.baseUrl}/posts`);
+    let url = `${API_CONFIG.baseUrl}/posts`;
+    if (page && limit) {
+      url += `?page=${page}&limit=${limit}`;
+    }
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Error fetching posts: ${response.statusText}`);
     }
     const posts = await response.json();
 
     // Store in cache
-    cache.set(CACHE_KEYS.ALL_POSTS, posts);
+    cache.set(cacheKey, posts);
 
     return posts;
   } catch (error) {

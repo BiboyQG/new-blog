@@ -3,6 +3,7 @@ package handlers
 import (
 	"database/sql"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 
@@ -37,7 +38,21 @@ func (h *PostHandler) RegisterRoutes(router *gin.RouterGroup) {
 
 // GetAllPosts returns all posts
 func (h *PostHandler) GetAllPosts(c *gin.Context) {
-	posts, err := h.postService.GetAll()
+	// Get page and limit from query parameters
+	pageStr := c.DefaultQuery("page", "1")
+	limitStr := c.DefaultQuery("limit", "10")
+
+	page, err := strconv.Atoi(pageStr)
+	if err != nil || page < 1 {
+		page = 1
+	}
+
+	limit, err := strconv.Atoi(limitStr)
+	if err != nil || limit < 1 {
+		limit = 10 // Default limit
+	}
+
+	posts, err := h.postService.GetAll(page, limit)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve posts"})
 		return

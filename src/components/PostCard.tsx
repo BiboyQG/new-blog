@@ -27,11 +27,6 @@ export default function PostCard({ post }: PostCardProps) {
 
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1">
-              <img
-                src={post.author.picture}
-                alt={post.author.name}
-                className="h-6 w-6 rounded-full"
-              />
               <span className="text-sm text-gray-600 dark:text-gray-400 pl-1">
                 {post.author.name}
               </span>

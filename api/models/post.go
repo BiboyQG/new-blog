@@ -51,16 +51,19 @@ func NewPostService(db *sql.DB) *PostService {
 	return &PostService{DB: db}
 }
 
-// GetAll retrieves all posts
-func (s *PostService) GetAll() ([]Post, error) {
+// GetAll retrieves all posts with pagination
+func (s *PostService) GetAll(page, limit int) ([]Post, error) {
+	offset := (page - 1) * limit
+
 	rows, err := s.DB.Query(`
-		SELECT 
-			p.id, p.title, p.excerpt, p.slug, p.published, 
-			p.created_at, p.updated_at, 
+		SELECT
+			p.id, p.title, p.excerpt, p.slug, p.published,
+			p.created_at, p.updated_at,
 			p.author_id, p.author_email, p.author_name, p.author_picture, p.author_is_admin
 		FROM posts p
 		ORDER BY p.created_at DESC
-	`)
+		LIMIT $1 OFFSET $2
+	`, limit, offset)
 	if err != nil {
 		return nil, err
 	}
@@ -101,9 +104,9 @@ func (s *PostService) GetAll() ([]Post, error) {
 func (s *PostService) GetByID(id string) (Post, error) {
 	var post Post
 	err := s.DB.QueryRow(`
-		SELECT 
-			p.id, p.title, p.content, p.excerpt, p.slug, p.published, 
-			p.created_at, p.updated_at, 
+		SELECT
+			p.id, p.title, p.content, p.excerpt, p.slug, p.published,
+			p.created_at, p.updated_at,
 			p.author_id, p.author_email, p.author_name, p.author_picture, p.author_is_admin
 		FROM posts p
 		WHERE p.id = $1
@@ -138,9 +141,9 @@ func (s *PostService) GetByID(id string) (Post, error) {
 func (s *PostService) GetBySlug(slug string) (Post, error) {
 	var post Post
 	err := s.DB.QueryRow(`
-		SELECT 
-			p.id, p.title, p.content, p.excerpt, p.slug, p.published, 
-			p.created_at, p.updated_at, 
+		SELECT
+			p.id, p.title, p.content, p.excerpt, p.slug, p.published,
+			p.created_at, p.updated_at,
 			p.author_id, p.author_email, p.author_name, p.author_picture, p.author_is_admin
 		FROM posts p
 		WHERE p.slug = $1
@@ -188,8 +191,8 @@ func (s *PostService) Create(postData PostFormData, author Author) (Post, error)
 	// Insert the post
 	err = tx.QueryRow(`
 		INSERT INTO posts (
-			id, title, content, excerpt, slug, published, 
-			created_at, updated_at, 
+			id, title, content, excerpt, slug, published,
+			created_at, updated_at,
 			author_id, author_email, author_name, author_picture, author_is_admin
 		) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
 		RETURNING id, title, content, excerpt, slug, published, created_at, updated_at
@@ -366,7 +369,7 @@ func (s *PostService) getTagsForPost(postID string) ([]Tag, error) {
 // Helper function to get comments for a post
 func (s *PostService) getCommentsForPost(postID string) ([]Comment, error) {
 	rows, err := s.DB.Query(`
-		SELECT 
+		SELECT
 			c.id, c.content, c.created_at, c.post_id,
 			c.author_id, c.author_email, c.author_name, c.author_picture, c.author_is_admin
 		FROM comments c

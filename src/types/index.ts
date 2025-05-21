@@ -9,10 +9,11 @@ export interface User {
 export interface Post {
   id: string;
   title: string;
-  content?: string;
+  content: string;
   excerpt: string;
   slug: string;
   published: boolean;
+  readTime?: number;
   createdAt: string;
   updatedAt: string;
   author: User;

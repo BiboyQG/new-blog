@@ -28,7 +28,7 @@ export default function PostCard({ post }: PostCardProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-1">
               <span className="text-sm text-gray-600 dark:text-gray-400 pl-1">
-                {post.author.name}
+                {post.author.name} | {post.readTime} min
               </span>
             </div>
 

@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -14,6 +15,7 @@ type Post struct {
 	Excerpt   string    `json:"excerpt"`
 	Slug      string    `json:"slug"`
 	Published bool      `json:"published"`
+	ReadTime  int       `json:"readTime"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 	Author    Author    `json:"author"`
@@ -57,7 +59,7 @@ func (s *PostService) GetAll(page, limit int) ([]Post, error) {
 
 	rows, err := s.DB.Query(`
 		SELECT
-			p.id, p.title, p.excerpt, p.slug, p.published,
+			p.id, p.title, p.excerpt, p.slug, p.published, p.read_time,
 			p.created_at, p.updated_at,
 			p.author_id, p.author_email, p.author_name, p.author_picture, p.author_is_admin
 		FROM posts p
@@ -73,21 +75,19 @@ func (s *PostService) GetAll(page, limit int) ([]Post, error) {
 	for rows.Next() {
 		var post Post
 		if err := rows.Scan(
-			&post.ID, &post.Title, &post.Excerpt, &post.Slug, &post.Published,
+			&post.ID, &post.Title, &post.Excerpt, &post.Slug, &post.Published, &post.ReadTime,
 			&post.CreatedAt, &post.UpdatedAt,
 			&post.Author.ID, &post.Author.Email, &post.Author.Name, &post.Author.Picture, &post.Author.IsAdmin,
 		); err != nil {
 			return nil, err
 		}
 
-		// Load tags for this post
 		tags, err := s.getTagsForPost(post.ID)
 		if err != nil {
 			return nil, err
 		}
 		post.Tags = tags
 
-		// Load comments for this post
 		comments, err := s.getCommentsForPost(post.ID)
 		if err != nil {
 			return nil, err
@@ -105,13 +105,13 @@ func (s *PostService) GetByID(id string) (Post, error) {
 	var post Post
 	err := s.DB.QueryRow(`
 		SELECT
-			p.id, p.title, p.content, p.excerpt, p.slug, p.published,
+			p.id, p.title, p.content, p.excerpt, p.slug, p.published, p.read_time,
 			p.created_at, p.updated_at,
 			p.author_id, p.author_email, p.author_name, p.author_picture, p.author_is_admin
 		FROM posts p
 		WHERE p.id = $1
 	`, id).Scan(
-		&post.ID, &post.Title, &post.Content, &post.Excerpt, &post.Slug, &post.Published,
+		&post.ID, &post.Title, &post.Content, &post.Excerpt, &post.Slug, &post.Published, &post.ReadTime,
 		&post.CreatedAt, &post.UpdatedAt,
 		&post.Author.ID, &post.Author.Email, &post.Author.Name, &post.Author.Picture, &post.Author.IsAdmin,
 	)
@@ -120,14 +120,12 @@ func (s *PostService) GetByID(id string) (Post, error) {
 		return post, err
 	}
 
-	// Load tags for this post
 	tags, err := s.getTagsForPost(post.ID)
 	if err != nil {
 		return post, err
 	}
 	post.Tags = tags
 
-	// Load comments for this post
 	comments, err := s.getCommentsForPost(post.ID)
 	if err != nil {
 		return post, err
@@ -142,13 +140,13 @@ func (s *PostService) GetBySlug(slug string) (Post, error) {
 	var post Post
 	err := s.DB.QueryRow(`
 		SELECT
-			p.id, p.title, p.content, p.excerpt, p.slug, p.published,
+			p.id, p.title, p.content, p.excerpt, p.slug, p.published, p.read_time,
 			p.created_at, p.updated_at,
 			p.author_id, p.author_email, p.author_name, p.author_picture, p.author_is_admin
 		FROM posts p
 		WHERE p.slug = $1
 	`, slug).Scan(
-		&post.ID, &post.Title, &post.Content, &post.Excerpt, &post.Slug, &post.Published,
+		&post.ID, &post.Title, &post.Content, &post.Excerpt, &post.Slug, &post.Published, &post.ReadTime,
 		&post.CreatedAt, &post.UpdatedAt,
 		&post.Author.ID, &post.Author.Email, &post.Author.Name, &post.Author.Picture, &post.Author.IsAdmin,
 	)
@@ -157,14 +155,12 @@ func (s *PostService) GetBySlug(slug string) (Post, error) {
 		return post, err
 	}
 
-	// Load tags for this post
 	tags, err := s.getTagsForPost(post.ID)
 	if err != nil {
 		return post, err
 	}
 	post.Tags = tags
 
-	// Load comments for this post
 	comments, err := s.getCommentsForPost(post.ID)
 	if err != nil {
 		return post, err
@@ -181,27 +177,31 @@ func (s *PostService) Create(postData PostFormData, author Author) (Post, error)
 		return Post{}, err
 	}
 
-	// Generate ID if not provided
 	postID := postData.ID
 	if postID == "" {
 		postID = generateID()
 	}
 
+	words := strings.Fields(postData.Content)
+	readTime := len(words) / 200
+	if readTime == 0 {
+		readTime = 1
+	}
+
 	var post Post
-	// Insert the post
 	err = tx.QueryRow(`
 		INSERT INTO posts (
-			id, title, content, excerpt, slug, published,
+			id, title, content, excerpt, slug, published, read_time,
 			created_at, updated_at,
 			author_id, author_email, author_name, author_picture, author_is_admin
-		) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-		RETURNING id, title, content, excerpt, slug, published, created_at, updated_at
+		) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+		RETURNING id, title, content, excerpt, slug, published, read_time, created_at, updated_at
 	`,
-		postID, postData.Title, postData.Content, postData.Excerpt, postData.Slug, postData.Published,
+		postID, postData.Title, postData.Content, postData.Excerpt, postData.Slug, postData.Published, readTime,
 		time.Now(), time.Now(),
 		author.ID, author.Email, author.Name, author.Picture, author.IsAdmin,
 	).Scan(
-		&post.ID, &post.Title, &post.Content, &post.Excerpt, &post.Slug, &post.Published,
+		&post.ID, &post.Title, &post.Content, &post.Excerpt, &post.Slug, &post.Published, &post.ReadTime,
 		&post.CreatedAt, &post.UpdatedAt,
 	)
 
@@ -210,19 +210,15 @@ func (s *PostService) Create(postData PostFormData, author Author) (Post, error)
 		return Post{}, err
 	}
 
-	// Set author
 	post.Author = author
 
-	// Add tags
 	for _, tagName := range postData.Tags {
-		// Find or create the tag
 		var tagID string
 		err := tx.QueryRow(`
 			SELECT id FROM tags WHERE name = $1
 		`, tagName).Scan(&tagID)
 
 		if err == sql.ErrNoRows {
-			// Create new tag
 			err = tx.QueryRow(`
 				INSERT INTO tags (id, name) VALUES ($1, $2)
 				RETURNING id
@@ -237,7 +233,6 @@ func (s *PostService) Create(postData PostFormData, author Author) (Post, error)
 			return Post{}, err
 		}
 
-		// Link tag to post
 		_, err = tx.Exec(`
 			INSERT INTO post_tags (post_id, tag_id) VALUES ($1, $2)
 		`, post.ID, tagID)
@@ -264,14 +259,23 @@ func (s *PostService) Update(id string, postData PostFormData) (Post, error) {
 		return Post{}, err
 	}
 
-	// Update post
-	_, err = tx.Exec(`
+	words := strings.Fields(postData.Content)
+	readTime := len(words) / 200
+	if readTime == 0 {
+		readTime = 1
+	}
+
+	var post Post
+	err = tx.QueryRow(`
 		UPDATE posts
-		SET title = $1, content = $2, excerpt = $3, slug = $4, published = $5, updated_at = $6
-		WHERE id = $7
+		SET title = $1, content = $2, excerpt = $3, slug = $4, published = $5, read_time = $6, updated_at = $7
+		WHERE id = $8
+		RETURNING id, title, content, excerpt, slug, published, read_time, created_at, updated_at, author_id, author_email, author_name, author_picture, author_is_admin
 	`,
-		postData.Title, postData.Content, postData.Excerpt, postData.Slug, postData.Published,
-		time.Now(), id,
+		postData.Title, postData.Content, postData.Excerpt, postData.Slug, postData.Published, readTime, time.Now(), id,
+	).Scan(
+		&post.ID, &post.Title, &post.Content, &post.Excerpt, &post.Slug, &post.Published, &post.ReadTime,
+		&post.CreatedAt, &post.UpdatedAt, &post.Author.ID, &post.Author.Email, &post.Author.Name, &post.Author.Picture, &post.Author.IsAdmin,
 	)
 
 	if err != nil {
@@ -279,19 +283,16 @@ func (s *PostService) Update(id string, postData PostFormData) (Post, error) {
 		return Post{}, err
 	}
 
-	// Remove all existing post-tag relationships
-	_, err = tx.Exec(`
-		DELETE FROM post_tags WHERE post_id = $1
-	`, id)
-
+	// Remove existing tags for the post
+	_, err = tx.Exec(`DELETE FROM post_tags WHERE post_id = $1`, id)
 	if err != nil {
 		tx.Rollback()
 		return Post{}, err
 	}
 
 	// Add new tags
+	var tags []Tag
 	for _, tagName := range postData.Tags {
-		// Find or create the tag
 		var tagID string
 		err := tx.QueryRow(`
 			SELECT id FROM tags WHERE name = $1
@@ -322,14 +323,15 @@ func (s *PostService) Update(id string, postData PostFormData) (Post, error) {
 			tx.Rollback()
 			return Post{}, err
 		}
+		tags = append(tags, Tag{ID: tagID, Name: tagName})
 	}
+	post.Tags = tags
 
 	if err := tx.Commit(); err != nil {
 		return Post{}, err
 	}
 
-	// Return the updated post
-	return s.GetByID(id)
+	return post, nil
 }
 
 // Delete removes a post

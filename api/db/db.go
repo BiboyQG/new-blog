@@ -62,6 +62,7 @@ func InitSchema() error {
 			excerpt TEXT NOT NULL,
 			slug TEXT UNIQUE NOT NULL,
 			published BOOLEAN NOT NULL DEFAULT false,
+			read_time INTEGER NOT NULL,
 			created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 			updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 			author_id TEXT NOT NULL,

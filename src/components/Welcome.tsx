@@ -7,7 +7,7 @@ export default function Welcome() {
 
       <div className="space-y-3 text-gray-700 dark:text-gray-300 mb-8">
         <p>
-          Hi! This is Banghao Chi, an M.S. CS student from University of
+          Hi! This is Banghao Chi, a M.S. CS student from University of
           Illinois at Urbana-Champaign(UIUC) and also a Research Assistant advised by{" "}
           <span className="font-medium">Prof. Minjia Zhang</span>. I'm also
           under the supervision of{" "}
